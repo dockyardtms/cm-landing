@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREDOMAX - Trucking Dispatch for Owner-Operators</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(30, 50, 80, 0.75), rgba(30, 50, 80, 0.75)), 
+                        url('hero-background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo-container {
+            margin: 0 auto 30px;
+        }
+
+        .logo {
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Fallback if image doesn't load */
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .form-container h2 {
+            color: #1e3a5f;
+            margin-bottom: 10px;
+            font-size: 1.75rem;
+        }
+
+        .form-container p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        input[type="text"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+
+        .submit-btn {
+            background: #4f46e5;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn:hover {
+            background: #4338ca;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .feature-item::before {
+            content: "✓";
+            background: #22c55e;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .phone-cta {
+            margin-top: 40px;
+        }
+
+        .phone-cta p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .phone-btn {
+            display: inline-block;
+            background: #84cc16;
+            color: #1e3a5f;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .phone-btn:hover {
+            background: #65a30d;
+            transform: scale(1.05);
+        }
+
+        .benefits-section {
+            padding: 60px 20px;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .benefit-card h3 {
+            color: #1e3a5f;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+        }
+
+        .benefit-list {
+            list-style: none;
+        }
+
+        .benefit-list li {
+            padding: 12px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .benefit-list li::before {
+            content: "✓";
+            background: #22c55e;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .avoid-list li::before {
+            content: "✕";
+            background: #ef4444;
+        }
+
+        .final-cta {
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.95) 0%, rgba(45, 90, 143, 0.95) 100%),
+                        url('truck-background.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px 30px;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+        }
+
+        .final-cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .final-cta p {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+        }
+
+        .final-cta .tagline {
+            color: #84cc16;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .final-cta h2 {
+                font-size: 1.75rem;
+            }
+
+            .phone-btn {
+                font-size: 1.25rem;
+                padding: 12px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-section">
+        <div class="logo-container">
+            <img src="logo.svg" alt="CREDOMAX Logo" class="logo">
+        </div>
+        
+        <h1>Tired of Low Rates and Unreliable Loads?</h1>
+        <p class="subtitle">We Help Owner-Operators Earn More With Consistent, High-Paying Loads<br>No Forced Dispatch</p>
+
+        <div class="form-container">
+            <h2>Get Started Today!</h2>
+            <p>Fill out below and we'll call you ASAP</p>
+            <form id="contactForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" name="phone" placeholder="Phone Number" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Get Loads Now</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="features">
+            <div class="feature-item">Weekly Pay</div>
+            <div class="feature-item">Choose Your Own Loads</div>
+            <div class="feature-item">24/7 Support</div>
+        </div>
+
+        <div class="phone-cta">
+            <p>No Wait, No Hassle – Call Now</p>
+            <a href="tel:+14453005700" class="phone-btn">+1 445 300 5700</a>
+        </div>
+    </section>
+
+    <section class="benefits-section">
+        <div class="container">
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Why Owner-Operators Choose Us</h3>
+                    <ul class="benefit-list">
+                        <li>Paid On Time, Every Time</li>
+                        <li>No Forced Dispatch — You Pick Your Loads</li>
+                        <li>Weekly Gross You Can Count On</li>
+                        <li>24/7 Support — Even for Truck Breakdowns</li>
+                        <li>Fuel Cards, Toll Passes & Roadside Help Provided</li>
+                        <li>Experienced Dispatchers Who Work For You</li>
+                    </ul>
+                </div>
+
+                <div class="benefit-card">
+                    <h3>What You Avoid Say Goodbye To</h3>
+                    <ul class="benefit-list avoid-list">
+                        <li>Low-Rate Loads</li>
+                        <li>Forced Dispatching</li>
+                        <li>Late Payments</li>
+                        <li>Unresponsive Dispatch</li>
+                        <li>Lack of Transparency</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="final-cta">
+                <h2>You're Not Just a Number.</h2>
+                <p>You're a pro. You deserve respect, great pay, and the loads you want.</p>
+                <p class="tagline">We treat drivers right. Let's roll.</p>
+                <a href="tel:+14453005700" class="phone-btn">📞 +1 445 300 5700</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = this.elements['name'].value;
+            const phone = this.elements['phone'].value;
+            
+            // Here you would typically send this data to your server
+            alert(`Thank you ${name}! We'll call you at ${phone} as soon as possible.`);
+            
+            // Reset form
+            this.reset();
+        });
+    </script>
+</body>
+</html>

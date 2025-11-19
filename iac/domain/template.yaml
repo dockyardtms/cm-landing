@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Domain infrastructure for DockyardTMS - Route53 Hosted Zone'
+
+Parameters:
+  DomainName:
+    Type: String
+    Description: The domain name for the website
+
+  Environment:
+    Type: String
+    Description: Environment name
+
+Resources:
+  # Route53 Hosted Zone
+  HostedZone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name: !Ref DomainName
+      HostedZoneConfig:
+        Comment: !Sub 'Hosted zone for ${DomainName}'
+
+Outputs:
+  HostedZoneId:
+    Description: Route53 Hosted Zone ID
+    Value: !Ref HostedZone
+    Export:
+      Name: !Sub '${AWS::StackName}-HostedZoneId'
+
+  HostedZoneName:
+    Description: Route53 Hosted Zone Name
+    Value: !Ref DomainName
+    Export:
+      Name: !Sub '${AWS::StackName}-HostedZoneName'
+
+  NameServers:
+    Description: Name servers for the hosted zone
+    Value: !Join [',', !GetAtt HostedZone.NameServers]
+    Export:
+      Name: !Sub '${AWS::StackName}-NameServers'

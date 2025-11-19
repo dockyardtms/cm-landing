@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Deployment infrastructure for DockyardTMS - S3 bucket for SAM deployments'
+
+Parameters:
+  BucketName:
+    Type: String
+    Description: Name of the S3 bucket for SAM deployments
+
+Resources:
+  # S3 Bucket for SAM deployments
+  SAMDeploymentBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteOldVersions
+            Status: Enabled
+            NoncurrentVersionExpirationInDays: 30
+          - Id: DeleteIncompleteMultipartUploads
+            Status: Enabled
+            AbortIncompleteMultipartUpload:
+              DaysAfterInitiation: 7
+      Tags:
+        - Key: Name
+          Value: !Ref BucketName
+        - Key: Purpose
+          Value: SAM Deployments
+        - Key: Project
+          Value: DockyardTMS
+
+Outputs:
+  SAMDeploymentBucketName:
+    Description: Name of the S3 bucket for SAM deployments
+    Value: !Ref SAMDeploymentBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-SAMDeploymentBucket'
+
+  SAMDeploymentBucketArn:
+    Description: ARN of the S3 bucket for SAM deployments
+    Value: !GetAtt SAMDeploymentBucket.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-SAMDeploymentBucketArn'

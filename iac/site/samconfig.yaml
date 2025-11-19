@@ -1,0 +1,16 @@
+version: 0.1
+
+prod:
+  deploy:
+    parameters:
+      stack_name: "cm-landing-site"
+      s3_bucket: "dytms-sam-deployments"
+      s3_prefix: "cm-landing"
+      region: "us-east-1"
+      capabilities: "CAPABILITY_IAM"
+      parameter_overrides:
+        - "DomainName=landing.credomaxtrans.com"
+        - "Environment=prod"
+        - "HostedZoneId=Z00099751WUXT9G3CV8UT"
+      confirm_changeset: true
+      fail_on_empty_changeset: false

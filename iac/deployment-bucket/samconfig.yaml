@@ -1,0 +1,12 @@
+version: 0.1
+
+prod:
+  deploy:
+    parameters:
+      stack_name: "dockyardtms-deployment-infrastructure"
+      region: "us-east-1"
+      capabilities: "CAPABILITY_IAM"
+      parameter_overrides:
+        - "BucketName=dytms-sam-deployments"
+      confirm_changeset: true
+      fail_on_empty_changeset: false
