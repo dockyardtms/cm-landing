@@ -367,7 +367,7 @@
                 <h2>You're Not Just a Number.</h2>
                 <p>You're a pro. You deserve respect, great pay, and the loads you want.</p>
                 <p class="tagline">We treat drivers right. Let's roll.</p>
-                <a href="tel:+14453005700" class="phone-btn">📞 +1 445 300 5700</a>
+                <a href="tel:+14453005700" class="phone-btn">+1 445 300 5700</a>
             </div>
         </div>
     </section>
@@ -379,11 +379,35 @@
             const name = this.elements['name'].value;
             const phone = this.elements['phone'].value;
             
-            // Here you would typically send this data to your server
-            alert(`Thank you ${name}! We'll call you at ${phone} as soon as possible.`);
-            
-            // Reset form
-            this.reset();
+            const payload = { name, phone };
+
+            fetch('https://api.landing.credomaxtrans.com/form', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(async (response) => {
+                if (!response.ok) {
+                    throw new Error('Request failed');
+                }
+
+                try {
+                    await response.json();
+                } catch (err) {
+                    // Ignore JSON parse errors for empty responses
+                }
+
+                alert(`Thank you ${name}! We'll call you at ${phone} as soon as possible.`);
+                
+                // Reset form
+                this.reset();
+            })
+            .catch((error) => {
+                console.error('Form submission failed', error);
+                alert('Sorry, something went wrong submitting the form. Please call us at +1 445 300 5700.');
+            });
         });
     </script>
 </body>

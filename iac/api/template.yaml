@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Form submission API for CredoMax landing page'
+
+Parameters:
+  Environment:
+    Type: String
+    Description: Environment name (e.g., dev, prod)
+
+  ApiDomainName:
+    Type: String
+    Description: Custom domain name for the API (e.g., api.landing.credomaxtrans.com)
+
+  HostedZoneId:
+    Type: String
+    Description: Route53 Hosted Zone ID for landing.credomaxtrans.com
+
+Resources:
+  LandingApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Environment
+      EndpointConfiguration: REGIONAL
+      Cors:
+        AllowMethods: "'OPTIONS,POST'"
+        AllowHeaders: "'Content-Type,Authorization'"
+        AllowOrigin: "'https://landing.credomaxtrans.com'"
+      Domain:
+        DomainName: !Ref ApiDomainName
+        CertificateArn: !Ref ApiSSLCertificate
+        Route53:
+          HostedZoneId: !Ref HostedZoneId
+
+  ApiSSLCertificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref ApiDomainName
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName: !Ref ApiDomainName
+          HostedZoneId: !Ref HostedZoneId
+
+  FormFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../../api
+      Handler: src.form_handler.handler
+      Runtime: python3.12
+      MemorySize: 128
+      Timeout: 10
+      Environment:
+        Variables:
+          ENVIRONMENT: !Ref Environment
+          CORS_ALLOW_ORIGIN: 'https://landing.credomaxtrans.com'
+      Events:
+        FormPost:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LandingApi
+            Path: /form
+            Method: post
+
+Outputs:
+  ApiUrl:
+    Description: Base URL for the API
+    Value: !Sub 'https://${ApiDomainName}'
+
+  ApiId:
+    Description: API Gateway ID
+    Value: !Ref LandingApi
