@@ -33,6 +33,14 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = Field(default="INFO", env="LANDING_API_LOG_LEVEL")
     
+    smtp_host: str = Field(default="localhost", env="LANDING_API_SMTP_HOST")
+    smtp_port: int = Field(default=587, env="LANDING_API_SMTP_PORT")
+    smtp_username: Optional[str] = Field(default=None, env="LANDING_API_SMTP_USERNAME")
+    smtp_password: Optional[str] = Field(default=None, env="LANDING_API_SMTP_PASSWORD")
+    smtp_use_tls: bool = Field(default=True, env="LANDING_API_SMTP_USE_TLS")
+    email_from: str = Field(default="no-reply@example.com", env="LANDING_API_EMAIL_FROM")
+    email_to: str = Field(default="contact@example.com", env="LANDING_API_EMAIL_TO")
+    
     model_config = {
         "case_sensitive": False,
         "extra": "ignore",

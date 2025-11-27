@@ -8,7 +8,7 @@ import structlog
 import time
 
 from config import get_settings
-from routers import workflows, runs, health
+from routers import workflows, runs, health, contact
 from middleware import RateLimitMiddleware, LoggingMiddleware
 from exceptions import LandingAPIException
 
@@ -70,6 +70,7 @@ if not settings.debug:
 app.include_router(health.router)
 app.include_router(workflows.router, prefix="/v1")
 app.include_router(runs.router, prefix="/v1")
+app.include_router(contact.router, prefix="/v1")
 
 
 @app.exception_handler(LandingAPIException)
