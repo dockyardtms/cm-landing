@@ -17,19 +17,6 @@ class Settings(BaseSettings):
     allowed_hosts: List[str] = Field(default=["*"], env="LANDING_API_ALLOWED_HOSTS")
     cors_origins: Optional[List[str]] = Field(default=None, env="LANDING_API_CORS_ORIGINS")
     
-    # AWS Configuration
-    aws_region: str = Field(default="us-east-1", env="AWS_REGION")
-    aws_access_key_id: Optional[str] = Field(default=None, env="AWS_ACCESS_KEY_ID")
-    aws_secret_access_key: Optional[str] = Field(default=None, env="AWS_SECRET_ACCESS_KEY")
-    
-    # DynamoDB Tables (legacy; not used by the landing form Lambda)
-    runs_table: str = Field(default="landing-api-runs", env="LANDING_API_RUNS_TABLE")
-    workflows_table: str = Field(default="landing-api-workflows", env="LANDING_API_WORKFLOWS_TABLE")
-    context_table: str = Field(default="landing-api-context", env="LANDING_API_CONTEXT_TABLE")
-    
-    # SQS Configuration (legacy; not used by the landing form Lambda)
-    sqs_queue_url: str = Field(default="https://sqs.us-east-1.amazonaws.com/123456789/landing-api-runs-dev", env="LANDING_API_SQS_QUEUE_URL")
-    
     # Logging
     log_level: str = Field(default="INFO", env="LANDING_API_LOG_LEVEL")
     
