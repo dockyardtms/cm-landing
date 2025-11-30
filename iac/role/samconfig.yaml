@@ -1,0 +1,14 @@
+version: 0.1
+
+prod:
+  deploy:
+    parameters:
+      stack_name: "cm-landing-role"
+      s3_bucket: "dytms-sam-deployments"
+      s3_prefix: "cm-landing-role"
+      region: "us-east-1"
+      capabilities: "CAPABILITY_IAM"
+      parameter_overrides:
+        - "SecretNamePrefix=cm-landing-api"
+      confirm_changeset: true
+      fail_on_empty_changeset: false

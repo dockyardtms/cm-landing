@@ -48,6 +48,10 @@ Parameters:
     Default: "contact@example.com"
     Description: Destination address for contact emails
 
+  LambdaExecutionRoleArn:
+    Type: String
+    Description: ARN of the IAM role to be used by the Landing API Lambda function
+
 Resources:
   LandingApi:
     Type: AWS::Serverless::Api
@@ -81,6 +85,7 @@ Resources:
       Runtime: python3.12
       MemorySize: 128
       Timeout: 10
+      Role: !Ref LambdaExecutionRoleArn
       Environment:
         Variables:
           ENVIRONMENT: !Ref Environment
