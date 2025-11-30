@@ -13,3 +13,18 @@ prod:
         - "Environment=prod"
       confirm_changeset: true
       fail_on_empty_changeset: false
+
+
+prod-dwut:
+  deploy:
+    parameters:
+      stack_name: "dwut-landing-domain"
+      s3_bucket: "dytms-sam-deployments"
+      s3_prefix: "domain"
+      region: "us-east-1"
+      capabilities: "CAPABILITY_IAM"
+      parameter_overrides:
+        - "DomainName=drivewithustoday.com"
+        - "Environment=prod"
+      confirm_changeset: true
+      fail_on_empty_changeset: false

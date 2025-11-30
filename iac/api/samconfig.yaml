@@ -12,5 +12,12 @@ prod:
         - "Environment=prod"
         - "ApiDomainName=api.landing.credomaxtrans.com"
         - "HostedZoneId=Z00099751WUXT9G3CV8UT"
+        - "SmtpHost=smtp.example.com"
+        - "SmtpPort=587"
+        - "SmtpUsername=dummy-user"
+        - "SmtpPassword=dummy-password"
+        - "SmtpUseTls=true"
+        - "EmailFrom=no-reply@credomaxtrans.com"
+        - "EmailTo=bek@credomaxtrans.com"
       confirm_changeset: true
       fail_on_empty_changeset: false

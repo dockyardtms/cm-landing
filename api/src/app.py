@@ -1,7 +1,7 @@
 """FastAPI application entry point for dual deployment (ECS/Lambda)."""
 
 # Load environment configuration first, before any other imports
-from env_loader import load_environment_config
+from .env_loader import load_environment_config
 
 # Import all other modules
 import os
@@ -12,7 +12,7 @@ from fastapi.responses import JSONResponse
 import structlog
 
 from config import get_settings
-from routers import workflows, runs, health
+from routers import runs, health, contact
 from middleware import RateLimitMiddleware, LoggingMiddleware
 from exceptions import LandingAPIException
 
@@ -84,8 +84,8 @@ if not settings.debug:
 
 # Include routers
 app.include_router(health.router)
-app.include_router(workflows.router, prefix="/workflows")
-app.include_router(runs.router, prefix="/runs")
+app.include_router(runs.router)
+app.include_router(contact.router)
 
 
 @app.exception_handler(LandingAPIException)

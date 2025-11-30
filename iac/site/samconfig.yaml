@@ -14,3 +14,18 @@ prod:
         - "HostedZoneId=Z00099751WUXT9G3CV8UT"
       confirm_changeset: true
       fail_on_empty_changeset: false
+
+prod-dwut:
+  deploy:
+    parameters:
+      stack_name: "dwut-landing-site"
+      s3_bucket: "dytms-sam-deployments"
+      s3_prefix: "dwut-landing"
+      region: "us-east-1"
+      capabilities: "CAPABILITY_IAM"
+      parameter_overrides:
+        - "DomainName=drivewithustoday.com"
+        - "Environment=prod"
+        - "HostedZoneId=Z04268581MQ6LIKUOQM6F"
+      confirm_changeset: true
+      fail_on_empty_changeset: false

@@ -77,7 +77,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ../../api
-      Handler: src.form_handler.handler
+      Handler: src.lambda_handler.handler
       Runtime: python3.12
       MemorySize: 128
       Timeout: 10
@@ -85,6 +85,7 @@ Resources:
         Variables:
           ENVIRONMENT: !Ref Environment
           CORS_ALLOW_ORIGIN: 'https://landing.credomaxtrans.com'
+          PYTHONPATH: /var/task/src
           LANDING_API_SMTP_HOST: !Ref SmtpHost
           LANDING_API_SMTP_PORT: !Ref SmtpPort
           LANDING_API_SMTP_USERNAME: !Ref SmtpUsername
@@ -93,12 +94,22 @@ Resources:
           LANDING_API_EMAIL_FROM: !Ref EmailFrom
           LANDING_API_EMAIL_TO: !Ref EmailTo
       Events:
-        FormPost:
+        ProxyRoot:
           Type: Api
           Properties:
             RestApiId: !Ref LandingApi
-            Path: /form
-            Method: post
+            Path: /
+            Method: ANY
+        ProxyAny:
+          Type: Api
+          Properties:
+            RestApiId: !Ref LandingApi
+            Path: /{proxy+}
+            Method: ANY
+    Metadata:
+      BuildMethod: python3.12
+      BuildProperties:
+        RequirementsFile: requirements.txt
 
 Outputs:
   ApiUrl:

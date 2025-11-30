@@ -1,8 +1,15 @@
 """AWS Lambda handler for the FastAPI application using Mangum adapter."""
 
 import logging
+import os
+import sys
 from mangum import Mangum
-from app import app  # Import the FastAPI instance from app.py (env_loader is imported there)
+
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+if CURRENT_DIR not in sys.path:
+    sys.path.insert(0, CURRENT_DIR)
+
+from .app import app  # Import the FastAPI instance from app.py (env_loader is imported there)
 
 # Configure logging for CloudWatch
 logger = logging.getLogger()
