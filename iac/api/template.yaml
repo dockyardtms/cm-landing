@@ -15,39 +15,6 @@ Parameters:
     Type: String
     Description: Route53 Hosted Zone ID for landing.credomaxtrans.com
   
-  SmtpHost:
-    Type: String
-    Default: "localhost"
-    Description: SMTP host for contact email
-  SmtpPort:
-    Type: String
-    Default: "587"
-    Description: SMTP port for contact email
-  SmtpUsername:
-    Type: String
-    Default: ""
-    Description: SMTP username (optional)
-  SmtpPassword:
-    Type: String
-    Default: ""
-    NoEcho: true
-    Description: SMTP password (optional, do not commit real values)
-  SmtpUseTls:
-    Type: String
-    Default: "true"
-    AllowedValues:
-      - "true"
-      - "false"
-    Description: Whether to use STARTTLS for SMTP connection
-  EmailFrom:
-    Type: String
-    Default: "no-reply@example.com"
-    Description: From address for contact emails
-  EmailTo:
-    Type: String
-    Default: "contact@example.com"
-    Description: Destination address for contact emails
-
   LambdaExecutionRoleArn:
     Type: String
     Description: ARN of the IAM role to be used by the Landing API Lambda function
@@ -96,13 +63,6 @@ Resources:
           ENVIRONMENT: !Ref Environment
           CORS_ALLOW_ORIGIN: 'https://landing.credomaxtrans.com'
           PYTHONPATH: /var/task/src
-          LANDING_API_SMTP_HOST: !Ref SmtpHost
-          LANDING_API_SMTP_PORT: !Ref SmtpPort
-          LANDING_API_SMTP_USERNAME: !Ref SmtpUsername
-          LANDING_API_SMTP_PASSWORD: !Ref SmtpPassword
-          LANDING_API_SMTP_USE_TLS: !Ref SmtpUseTls
-          LANDING_API_EMAIL_FROM: !Ref EmailFrom
-          LANDING_API_EMAIL_TO: !Ref EmailTo
           LANDING_API_CONFIG_SECRET_NAME: !Ref ConfigSecretName
       Events:
         ProxyRoot:

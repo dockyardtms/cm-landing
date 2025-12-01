@@ -21,7 +21,7 @@ WORKDIR /app
 
 # Copy API source code
 COPY api/src/ ./api/src/
-COPY api/env/ ./api/env/
+COPY api/config/ ./api/config/
 COPY api/requirements.txt ./api/
 
 # Generate self-signed SSL certificate for HTTPS (in api directory)

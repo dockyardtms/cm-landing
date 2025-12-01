@@ -12,13 +12,6 @@ prod:
         - "Environment=prod"
         - "ApiDomainName=api.landing.credomaxtrans.com"
         - "HostedZoneId=Z00099751WUXT9G3CV8UT"
-        - "SmtpHost=smtp.example.com"
-        - "SmtpPort=587"
-        - "SmtpUsername=dummy-user"
-        - "SmtpPassword=dummy-password"
-        - "SmtpUseTls=true"
-        - "EmailFrom=no-reply@credomaxtrans.com"
-        - "EmailTo=bek@credomaxtrans.com"
         - "ConfigSecretName=cm-landing-api-secret"
         - "LambdaExecutionRoleArn=arn:aws:iam::488479523924:role/cm-landing-role-LandingApiLambdaRole-4wo5lW8YTa85"
       confirm_changeset: true

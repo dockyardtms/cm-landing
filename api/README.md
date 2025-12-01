@@ -31,12 +31,12 @@ focused on a lightweight Landing API that powers the
 ### Configuration
 
 Environment variables use a `LANDING_API_*` prefix. See the env files under
-`api/env/` for examples:
+`api/config/` for examples:
 
-- `env/local.env` – local development
-- `env/dev.env` – development
-- `env/stg.env` – staging
-- `env/prod.env` – production
+- `config/local.env` – local development
+- `config/dev.env` – development
+- `config/stg.env` – staging
+- `config/prod.env` – production
 
 Key variables:
 

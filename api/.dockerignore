@@ -24,12 +24,6 @@ coverage.xml
 dmypy.json
 
 # Virtual environments
-.env
-.venv
-venv/
-ENV/
-env.bak/
-venv.bak/
 
 # IDE
 .vscode/
@@ -37,15 +31,6 @@ venv.bak/
 *.swp
 *.swo
 *~
-
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
 
 # Documentation
 *.md
@@ -60,9 +45,6 @@ test_*
 .editorconfig
 .pre-commit-config.yaml
 
-# Infrastructure (not needed in container)
-iac/
-cli/
 
 # Other components (will be copied explicitly)
 runner/

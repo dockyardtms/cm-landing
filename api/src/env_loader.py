@@ -6,7 +6,7 @@ from pathlib import Path
 
 def load_environment_config():
     """
-    Load environment-specific configuration from env files.
+    Load environment-specific configuration from config files.
     
     This function loads configuration based on the ENVIRONMENT variable:
     - local: For local development
@@ -19,9 +19,9 @@ def load_environment_config():
     environment = os.getenv('ENVIRONMENT', 'local')
     
     # Get the path to the env file relative to this file's location
-    # This file is in src/, so env files are in ../env/
+    # This file is in src/, so env files are in ../config/
     current_dir = Path(__file__).parent  # /path/to/api/src/
-    env_file_path = current_dir.parent / 'env' / f'{environment}.env'  # /path/to/api/env/environment.env
+    env_file_path = current_dir.parent / 'config' / f'{environment}.env'  # /path/to/api/config/environment.env
     
     if env_file_path.exists():
         print(f"Loading environment config: {env_file_path}")
