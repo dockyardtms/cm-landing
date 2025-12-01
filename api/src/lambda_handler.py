@@ -16,9 +16,49 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
+def _parse_allowed_origins() -> set[str]:
+    """Parse allowed origins from LANDING_API_CORS_ORIGINS.
+
+    Accepts a comma-separated list of origins.
+    """
+    raw = os.getenv("LANDING_API_CORS_ORIGINS", "")
+    return {o.strip() for o in raw.split(",") if o.strip()}
+
+
+ALLOWED_ORIGINS = _parse_allowed_origins()
+
+
+def _add_cors_headers(response: dict | None, origin: str | None) -> dict | None:
+    """Add CORS headers to the Lambda proxy response if origin is allowed.
+
+    This is a safety net on top of FastAPI's CORSMiddleware to ensure that
+    both preflight (OPTIONS) and actual requests include the expected headers
+    when invoked via API Gateway.
+    """
+    if response is None or not isinstance(response, dict):
+        return response
+
+    headers = response.get("headers") or {}
+
+    # Normalize header keys to case-insensitive access for existing values
+    normalized_headers = {k.lower(): k for k in headers.keys()}
+
+    # Determine if we should set CORS for this origin
+    if origin and (not ALLOWED_ORIGINS or origin in ALLOWED_ORIGINS):
+        headers["Access-Control-Allow-Origin"] = origin
+        headers["Access-Control-Allow-Credentials"] = "true"
+        headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization"
+        headers["Access-Control-Allow-Methods"] = "OPTIONS,GET,POST,PUT,DELETE"
+        headers["Vary"] = "Origin"
+
+    response["headers"] = headers
+    return response
+
+
 def lambda_handler(event, context):
     """Lambda handler for the FastAPI application."""
     request_id = getattr(context, 'aws_request_id', 'unknown')
+    origin = None
     
     try:
         # Safely extract key request info for logging
@@ -31,9 +71,11 @@ def lambda_handler(event, context):
         try:
             method = event.get("httpMethod", event.get("requestContext", {}).get("http", {}).get("method", "UNKNOWN"))
             path = event.get("rawPath", event.get("path", "UNKNOWN"))
-            
+
             # Get real client IP from X-Forwarded-For header (preferred) or fallback to sourceIp
             headers = event.get("headers") or {}
+            origin = headers.get("origin") or headers.get("Origin")
+
             x_forwarded_for = headers.get("x-forwarded-for")
             if x_forwarded_for:
                 try:
@@ -45,15 +87,28 @@ def lambda_handler(event, context):
                     source_ip = event.get("requestContext", {}).get("http", {}).get("sourceIp", "unknown")
                 except (AttributeError, TypeError):
                     pass
-            
+
             user_agent = headers.get("user-agent", "unknown")
             if user_agent and len(user_agent) > 50:
                 user_agent = user_agent[:50] + "..."
         except Exception as e:
             logger.error(f"Error extracting request info: {type(e).__name__}: {str(e)} - RequestID: {request_id}")
         
-        # Call the Mangum handler
+        # Handle CORS preflight directly to ensure 200 OK for allowed origins
+        if method == "OPTIONS":
+            preflight_response = {
+                "statusCode": 200,
+                "headers": {},
+                "body": "",
+            }
+            preflight_response = _add_cors_headers(preflight_response, origin)
+            return preflight_response
+
+        # Call the Mangum handler for all non-preflight requests
         response = mangum_handler(event, context)
+
+        # Ensure CORS headers are present on the proxy response
+        response = _add_cors_headers(response, origin)
         
         # Single combined log line with request and response info
         try:
@@ -63,7 +118,7 @@ def lambda_handler(event, context):
 
         # We have success logging already in the app
         # logger.info(f"RequestID: {request_id} - {method} {path} - {status_code} - IP: {source_ip} - UserAgent: {user_agent}")
-        
+
         return response
         
     except Exception as e:

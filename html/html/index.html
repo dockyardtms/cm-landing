@@ -423,6 +423,15 @@
 
                 alert(`Thank you ${name}! We'll call you at ${phone} as soon as possible.`);
                 
+                try {
+                    // Generic Syntax
+                    gtag('event', 'DWUT_ContactFormSubmission', {
+                        'name': name,
+                        'phone': phone
+                    });
+                } catch (ex) {
+                    console.error('Form submission failed', ex);
+                }
                 // Reset form
                 this.reset();
             })
