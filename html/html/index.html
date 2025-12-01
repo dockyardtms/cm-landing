@@ -328,7 +328,7 @@
         </div>
         
         <div class="phone-cta">
-            <a href="tel:+19379108180" class="phone-btn">+1 937 910 8180</a>
+			<a href="tel:+19379108180" class="phone-btn" data-phone-source="hero_phone_cta">+1 937 910 8180</a>
         </div>
 
         <h1>Tired of Low Rates and Unreliable Loads?</h1>
@@ -389,13 +389,28 @@
                 <h2>You're Not Just a Number.</h2>
                 <p>You're a pro. You deserve respect, great pay, and the loads you want.</p>
                 <p class="tagline">We treat drivers right. Let's roll.</p>
-                <a href="tel:+19379108180" class="phone-btn">+1 937 910 8180</a>
+				<a href="tel:+19379108180" class="phone-btn" data-phone-source="final_phone_cta">+1 937 910 8180</a>
             </div>
         </div>
     </section>
 
     <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+		document.querySelectorAll('.phone-btn[data-phone-source]').forEach(function(link) {
+			link.addEventListener('click', function(e) {
+				var source = this.getAttribute('data-phone-source') || 'unknown';
+				try {
+					if (typeof gtag === 'function') {
+						gtag('event', 'DWUT_PhoneClick', {
+							'source': source
+						});
+					}
+				} catch (ex) {
+					console.error('Phone click tracking failed', ex);
+				}
+			});
+		});
+
+		document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const name = this.elements['name'].value;
