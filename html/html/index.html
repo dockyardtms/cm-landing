@@ -400,7 +400,7 @@
 				var source = this.getAttribute('data-phone-source') || 'unknown';
 				try {
 					if (typeof gtag === 'function') {
-						gtag('event', 'DWUT_PhoneClick', {
+						gtag('event', 'PhoneClick', {
 							'source': source
 						});
 					}
@@ -440,7 +440,7 @@
                 
                 try {
                     // Generic Syntax
-                    gtag('event', 'DWUT_ContactFormSubmission', {
+                    gtag('event', 'ContactFormSubmission', {
                         'name': name,
                         'phone': phone
                     });
