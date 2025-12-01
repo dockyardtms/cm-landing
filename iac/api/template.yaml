@@ -52,6 +52,11 @@ Parameters:
     Type: String
     Description: ARN of the IAM role to be used by the Landing API Lambda function
 
+  ConfigSecretName:
+    Type: String
+    Default: ""
+    Description: Name of the Secrets Manager secret containing SMTP/email config (optional)
+
 Resources:
   LandingApi:
     Type: AWS::Serverless::Api
@@ -98,6 +103,7 @@ Resources:
           LANDING_API_SMTP_USE_TLS: !Ref SmtpUseTls
           LANDING_API_EMAIL_FROM: !Ref EmailFrom
           LANDING_API_EMAIL_TO: !Ref EmailTo
+          LANDING_API_CONFIG_SECRET_NAME: !Ref ConfigSecretName
       Events:
         ProxyRoot:
           Type: Api

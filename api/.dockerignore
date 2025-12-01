@@ -8,7 +8,6 @@ __pycache__
 *.pyo
 *.pyd
 .Python
-env
 pip-log.txt
 pip-delete-this-directory.txt
 .tox
@@ -27,7 +26,6 @@ dmypy.json
 # Virtual environments
 .env
 .venv
-env/
 venv/
 ENV/
 env.bak/

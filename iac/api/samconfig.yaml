@@ -19,6 +19,7 @@ prod:
         - "SmtpUseTls=true"
         - "EmailFrom=no-reply@credomaxtrans.com"
         - "EmailTo=bek@credomaxtrans.com"
+        - "ConfigSecretName=cm-landing-api-secret"
         - "LambdaExecutionRoleArn=arn:aws:iam::488479523924:role/cm-landing-role-LandingApiLambdaRole-4wo5lW8YTa85"
       confirm_changeset: true
       fail_on_empty_changeset: false
