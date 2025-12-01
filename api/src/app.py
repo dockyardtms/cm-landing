@@ -66,12 +66,16 @@ app.add_middleware(LoggingMiddleware)
 app.add_middleware(RateLimitMiddleware, rate_limit=settings.rate_limit)
 
 # CORS middleware
-if settings.cors_origins:
+cors_origins = settings.cors_origins or []
+if isinstance(cors_origins, str):
+    cors_origins = [o.strip() for o in cors_origins.split(",") if o.strip()]
+
+if cors_origins:
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.cors_origins,
+        allow_origins=cors_origins,
         allow_credentials=True,
-        allow_methods=["GET", "POST", "PUT", "DELETE"],
+        allow_methods=["*"],
         allow_headers=["*"],
     )
 

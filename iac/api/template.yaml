@@ -30,10 +30,6 @@ Resources:
     Properties:
       StageName: !Ref Environment
       EndpointConfiguration: REGIONAL
-      Cors:
-        AllowMethods: "'OPTIONS,POST'"
-        AllowHeaders: "'Content-Type,Authorization'"
-        AllowOrigin: "'https://landing.credomaxtrans.com'"
       Domain:
         DomainName: !Ref ApiDomainName
         CertificateArn: !Ref ApiSSLCertificate
@@ -61,7 +57,7 @@ Resources:
       Environment:
         Variables:
           ENVIRONMENT: !Ref Environment
-          CORS_ALLOW_ORIGIN: 'https://landing.credomaxtrans.com'
+          CORS_ALLOW_ORIGIN: 'https://drivewithustoday.com'
           PYTHONPATH: /var/task/src
           LANDING_API_CONFIG_SECRET_NAME: !Ref ConfigSecretName
       Events:
