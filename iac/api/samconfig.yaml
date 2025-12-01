@@ -10,8 +10,8 @@ prod:
       capabilities: "CAPABILITY_IAM"
       parameter_overrides:
         - "Environment=prod"
-        - "ApiDomainName=api.landing.credomaxtrans.com"
-        - "HostedZoneId=Z00099751WUXT9G3CV8UT"
+        - "ApiDomainName=api.drivewithustoday.com"
+        - "HostedZoneId=Z04268581MQ6LIKUOQM6F"
         - "ConfigSecretName=cm-landing-api-secret"
         - "LambdaExecutionRoleArn=arn:aws:iam::488479523924:role/cm-landing-role-LandingApiLambdaRole-4wo5lW8YTa85"
       confirm_changeset: true

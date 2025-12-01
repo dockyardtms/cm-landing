@@ -3,12 +3,14 @@ from pydantic import BaseModel
 import asyncio
 import smtplib
 import ssl
+import logging
 from email.message import EmailMessage
 
 from config import get_settings
 from exceptions import LandingAPIException
 
 
+logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/contact", tags=["contact"])
 
 
@@ -19,6 +21,18 @@ class ContactRequest(BaseModel):
 
 async def _send_contact_email(name: str, phone: str) -> None:
     settings = get_settings()
+
+
+    # Log effective SMTP configuration (excluding password) for debugging
+    logger.info(
+        "SMTP settings for contact email host=%s port=%s username=%s use_tls=%s from=%s to=%s",
+        settings.smtp_host,
+        settings.smtp_port,
+        settings.smtp_username,
+        settings.smtp_use_tls,
+        settings.email_from,
+        settings.email_to,
+    )
 
     message = EmailMessage()
     message["Subject"] = "New contact submission"
@@ -51,6 +65,16 @@ async def _send_contact_email(name: str, phone: str) -> None:
 @router.post("")
 async def create_contact(request: ContactRequest):
     try:
+        s = get_settings()
+        logger.info(
+            "Contact email submission host=%s port=%s username=%s use_tls=%s from=%s to=%s",
+            s.smtp_host,
+            s.smtp_port,
+            s.smtp_username,
+            s.smtp_use_tls,
+            s.email_from,
+            s.email_to,
+        )
         await _send_contact_email(request.name, request.phone)
     except Exception as exc:  # noqa: BLE001
         raise LandingAPIException(
